@@ -1,0 +1,445 @@
+<%- include('../userheader/userheader') %>
+            <main class="main">
+                <div class="page-header breadcrumb-wrap">
+                    <div class="container">
+                        <div class="breadcrumb">
+                            <a href="/" rel="nofollow">Home</a>
+                            <span></span> Shop
+                            <span></span> Your Cart
+                        </div>
+                    </div>
+                </div>
+                <section class="mt-50 mb-50">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <table class="table shopping-summery text-center clean">
+                                        <thead>
+
+                                            <tr class="main-heading">
+                                                <th scope="col">Image</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Price</th>
+                                                <th scope="col">Quantity</th>
+                                                <th scope="col">Subtotal</th>
+                                                <th scope="col">Remove</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <% if (cart && cart.products && cart.products.length> 0) { %>
+                                                <% for (let i=0; i < cart.products.length; i++) { %>
+
+                                                    <tr>
+                                                        <td class="image product-thumbnail"><img
+                                                                src="/productimages/<%= cart.products[i].productimg %>"
+                                                                alt="#"></td>
+                                                        <td class="product-des product-name">
+                                                            <h5 class="product-name"><a href="shop-product-right.html">
+                                                                    <%= cart.products[i].title %>
+                                                                </a></h5>
+                                                            <p class="font-xs">
+                                                                <%= cart.products[i].productdt %>
+                                                            </p>
+                                                        </td>
+                                                        <td class="price" data-title="Price">
+                                                            <span id="price_<%= cart.products[i]._id %>">Rs: <%=
+                                                                    cart.products[i].pprice %></span>
+                                                        </td>
+                                                        <td class="text-center" data-title="Stock">
+                                                            <div class="quantity-controls">
+                                                                <button class="btn btn-sm control-btn plus"
+                                                                    onclick="updateQuantity('<%= cart.products[i]._id %>', -1)">
+                                                                    -
+                                                                </button>
+                                                                <div class="detail-qty border radius m-auto">
+                                                                    <!-- Quantity Display -->
+                                                                    <div class="quantity-container">
+                                                                        <span id="quantity_<%= cart.products[i]._id %>">
+                                                                            <%= cart.products[i].quantity %>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <button class="btn btn-sm control-btn minus"
+                                                                    onclick="updateQuantity('<%= cart.products[i]._id %>', 1)">
+                                                                    +
+                                                                </button>
+                                                            </div>
+                                                        </td>
+
+                                                        <td class="text-right" data-title="Subtotal">
+                                                            <span id="subtotal_<%= cart.products[i]._id %>">Rs:<%=
+                                                                    cart.products[i].quantity * cart.products[i].pprice %>
+
+                                                            </span>
+                                                        </td>
+
+                                                        <td class="action" data-title="Remove"><a
+                                                                href="/deletecart?id=<%= cart.products[i]._id %>"
+                                                                class="text-muted"><i class="fi-rs-trash"></i></a></td>
+                                                    </tr>
+                                                    <% } %>
+                                                        <tr>
+                                                            <td colspan="6" class="text-end">
+                                                                <a href="#" class="text-muted"> <i
+                                                                        class="fi-rs-cross-small"></i> Clear Cart</a>
+                                                            </td>
+                                                        </tr>
+                                                        <% } else { %>
+                                                            <tr>
+                                                                <td colspan="6" class="text-center">
+                                                                    <h4>Cart is Empty</h4>
+                                                                </td>
+                                                            </tr>
+                                                            <% } %>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                                <div class="cart-action text-end">
+
+                                    <style>
+                                        .quantity-controls {
+                                            display: flex;
+                                            align-items: center;
+                                        }
+
+                                        .control-btn {
+                                            width: 20px;
+                                            /* Adjust the width as needed */
+                                            height: 40px;
+                                            /* Adjust the height as needed */
+                                            font-size: 12px;
+                                            /* Adjust the font size as needed */
+                                            color: #000;
+                                            /* Set the color you desire */
+                                            border: none;
+                                            background: none;
+                                            cursor: pointer;
+                                        }
+
+                                        .control-btn:hover {
+                                            background-color: #2f5c47;
+                                            /* Set the background color on hover if desired */
+                                        }
+
+                                        .plus {
+                                            border-top-right-radius: 5px;
+                                            border-bottom-right-radius: 5px;
+                                        }
+
+                                        .minus {
+                                            border-top-left-radius: 5px;
+                                            border-bottom-left-radius: 5px;
+                                        }
+
+                                        .quantity-container {
+                                            margin: 0 5px;
+                                            /* Adjust the spacing between quantity and buttons */
+                                            display: inline-block;
+                                        }
+                                    </style>
+
+
+
+
+                                    <a href="/shoppage" class="btn "><i class="fi-rs-shopping-bag mr-10"></i>Continue
+                                        Shopping</a>
+                                </div>
+                                <div class="divider center_icon mt-50 mb-50"><i class="fi-rs-fingerprint"></i></div>
+                                
+                            </div>
+                            <div class="col-lg-6 col-md-12">
+                                <div class="border p-md-4 p-30 border-radius cart-totals">
+                                    <div class="heading_s1 mb-3">
+                                        <h4>Cart Totals</h4>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+
+                                                <tr>
+                                                    <td class="cart_total_label">Cart Subtotal</td>
+                                                    <td class="cart_total_amount">
+                                                        <% if (cart && cart.products && cart.products.length > 0) { %>
+                                                            <% let subtotal = 0; %>
+                                                            <% for (let i = 0; i < cart.products.length; i++) { %>
+                                                                <% subtotal += cart.products[i].pprice * cart.products[i].quantity; %>
+                                                            <% } %>
+                                                            <span id="cartSubtotal" class="font-lg fw-900 text-brand">Rs: <%= subtotal.toFixed(1) %></span>
+                                                        <% } else { %>
+                                                            <span id="cartSubtotal" class="font-lg fw-900 text-brand">Rs: 0</span>
+                                                        <% } %>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="cart_total_label">Shipping</td>
+                                                    <td class="cart_total_amount">
+                                                        <i class="ti-gift mr-5"></i> Free Shipping
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="cart_total_label">Total</td>
+                                                    <td class="cart_total_amount">
+                                                        <strong>
+                                                        <% if (cart && cart.products && cart.products.length > 0) { %>
+                                                                <% let subtotal = 0; %>
+                                                            <% for (let i = 0; i < cart.products.length; i++) { %>
+                                                                <% subtotal += cart.products[i].pprice * cart.products[i].quantity; %>
+                                                            <% } %>
+                                                                <span id="cartTotal" class="font-xl fw-900 text-brand">Rs: <%= subtotal.toFixed(1) %></span>
+                                                        <% } else { %>
+                                                                <span id="cartTotal" class="font-xl fw-900 text-brand">Rs: 0</span>
+                                                            <% } %>
+                                                        </strong>
+                                                    </td>
+                                                </tr>
+                                                
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <% if (cart && cart.products && cart.products.length > 0 ) { %>
+                                        <a href="/checkoutpage" class="btn "> <i class="fi-rs-box-alt mr-10"></i> Proceed To CheckOut</a>
+                                    <% } else { %>
+                                        <a href="#" class="btn "> <i class="fi-rs-box-alt mr-10"></i> Proceed To CheckOut</a>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+        </div>
+        </section>
+    </main>
+    <footer class="main">
+        <section class="newsletter p-30 text-white wow fadeIn animated">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 mb-md-3 mb-lg-0">
+                        <div class="row align-items-center">
+                            <div class="col flex-horizontal-center">
+                                <img class="icon-email" src="static/userasset/imgs/theme/icons/icon-email.svg" alt="">
+                                <h4 class="font-size-20 mb-0 ml-3">Sign up to Newsletter</h4>
+                            </div>
+                            <div class="col my-4 my-md-0 des">
+                                <h5 class="font-size-15 ml-4 mb-0">...and receive <strong>$25 coupon for first
+                                        shopping.</strong></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <!-- Subscribe Form -->
+                        <form class="form-subcriber d-flex wow fadeIn animated">
+                            <input type="email" class="form-control bg-white font-small" placeholder="Enter your email">
+                            <button class="btn bg-dark text-white" type="submit">Subscribe</button>
+                        </form>
+                        <!-- End Subscribe Form -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section-padding footer-mid">
+            <div class="container pt-15 pb-20">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="widget-about font-md mb-md-5 mb-lg-0">
+                            <div class="logo logo-width-1 wow fadeIn animated">
+                                <a href="index.html"><img src="static/userasset/imgs/theme/logo.svg" alt="logo"></a>
+                            </div>
+                            <h5 class="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated">Contact</h5>
+                            <p class="wow fadeIn animated">
+                                <strong>Address: </strong>562 Wellington Road, Street 32, San Francisco
+                            </p>
+                            <p class="wow fadeIn animated">
+                                <strong>Phone: </strong>+01 2222 365 /(+91) 01 2345 6789
+                            </p>
+                            <p class="wow fadeIn animated">
+                                <strong>Hours: </strong>10:00 - 18:00, Mon - Sat
+                            </p>
+                            <h5 class="mb-10 mt-30 fw-600 text-grey-4 wow fadeIn animated">Follow Us</h5>
+                            <div class="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0">
+                                <a href="#"><img src="static/userasset/imgs/theme/icons/icon-facebook.svg" alt=""></a>
+                                <a href="#"><img src="static/userasset/imgs/theme/icons/icon-twitter.svg" alt=""></a>
+                                <a href="#"><img src="static/userasset/imgs/theme/icons/icon-instagram.svg" alt=""></a>
+                                <a href="#"><img src="static/userasset/imgs/theme/icons/icon-pinterest.svg" alt=""></a>
+                                <a href="#"><img src="static/userasset/imgs/theme/icons/icon-youtube.svg" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3">
+                        <h5 class="widget-title wow fadeIn animated">About</h5>
+                        <ul class="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Delivery Information</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms &amp; Conditions</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Support Center</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2  col-md-3">
+                        <h5 class="widget-title wow fadeIn animated">My Account</h5>
+                        <ul class="footer-list wow fadeIn animated">
+                            <li><a href="#">Sign In</a></li>
+                            <li><a href="#">View Cart</a></li>
+                            <li><a href="#">My Wishlist</a></li>
+                            <li><a href="#">Track My Order</a></li>
+                            <li><a href="#">Help</a></li>
+                            <li><a href="#">Order</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-4">
+                        <h5 class="widget-title wow fadeIn animated">Install App</h5>
+                        <div class="row">
+                            <div class="col-md-8 col-lg-12">
+                                <p class="wow fadeIn animated">From App Store or Google Play</p>
+                                <div class="download-app wow fadeIn animated">
+                                    <a href="#" class="hover-up mb-sm-4 mb-lg-0"><img class="active"
+                                            src="static/userasset/imgs/theme/app-store.jpg" alt=""></a>
+                                    <a href="#" class="hover-up"><img src="static/userasset/imgs/theme/google-play.jpg"
+                                            alt=""></a>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-12 mt-md-3 mt-lg-0">
+                                <p class="mb-20 wow fadeIn animated">Secured Payment Gateways</p>
+                                <img class="wow fadeIn animated" src="static/userasset/imgs/theme/payment-method.png"
+                                    alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="container pb-20 wow fadeIn animated">
+            <div class="row">
+                <div class="col-12 mb-20">
+                    <div class="footer-bottom"></div>
+                </div>
+                <div class="col-lg-6">
+                    <p class="float-md-left font-sm text-muted mb-0">&copy; 2022, <strong
+                            class="text-brand">Evara</strong> - HTML Ecommerce Template </p>
+                </div>
+                <div class="col-lg-6">
+                    <p class="text-lg-end text-start font-sm text-muted mb-0">
+                        Designed by <a href="http://alithemes.com" target="_blank">Alithemes.com</a>. All rights
+                        reserved
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Preloader Start -->
+    <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="text-center">
+                    <h5 class="mb-5">Now Loading</h5>
+                    <div class="loader">
+                        <div class="bar bar1"></div>
+                        <div class="bar bar2"></div>
+                        <div class="bar bar3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        async function updateQuantity(productId, change) {
+            try {
+                const quantitySpan = document.getElementById(`quantity_${productId}`);
+                let currentQuantity = parseInt(quantitySpan.innerText);
+                let currentStock = 0; // Default value
+
+                const response = await fetch(`/getStock?id=${productId}`);
+                const stockData = await response.json();
+                currentStock = stockData.stock;
+
+                const newQuantity = currentQuantity + change;
+
+                if (newQuantity < 1) {
+                    return;
+                }
+
+                if (newQuantity > currentStock) {
+                    alert('Out of stock!');
+                    return;
+                }
+
+                quantitySpan.innerText = newQuantity;
+
+                const updateResponse = await fetch(`/updatequantity?id=${productId}&quantity=${newQuantity}`, {
+                    method: 'POST',
+                });
+
+                if (!updateResponse.ok) {
+                    throw new Error('Failed to update quantity in the database');
+                }
+
+                const priceSpan = document.getElementById(`price_${productId}`);
+                const subtotalSpan = document.getElementById(`subtotal_${productId}`);
+                const productPrice = parseFloat(priceSpan.innerText.replace('Rs: ', ''));
+
+                const subtotal = Math.max(newQuantity * productPrice, productPrice);
+                subtotalSpan.innerText = `Rs: ${subtotal.toFixed(1)}`;
+
+                calculateCartTotal();
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+
+        function calculateCartTotal() {
+            const productSubtotals = document.querySelectorAll('[id^="subtotal_"]');
+            let cartSubtotal = 0;
+
+            productSubtotals.forEach(subtotalSpan => {
+                const subtotal = parseFloat(subtotalSpan.innerText.replace('Rs: ', ''));
+                if (!isNaN(subtotal)) {
+                    cartSubtotal += subtotal;
+                }
+            });
+
+            // Update the cart subtotal
+            const cartSubtotalSpan = document.getElementById('cartSubtotal');
+            cartSubtotalSpan.innerText = `Rs: ${cartSubtotal.toFixed(1)}`;
+
+            // Update the cart total (assuming no shipping cost)
+            const cartTotalSpan = document.getElementById('cartTotal');
+            cartTotalSpan.innerText = `Rs: ${cartSubtotal.toFixed(1)}`;
+        }
+    </script>
+
+
+
+
+
+
+    <!-- Vendor JS-->
+    <script src="static/userasset/js/vendor/modernizr-3.6.0.min.js"></script>
+    <script src="static/userasset/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="static/userasset/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+    <script src="static/userasset/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="static/userasset/js/plugins/slick.js"></script>
+    <script src="static/userasset/js/plugins/jquery.syotimer.min.js"></script>
+    <script src="static/userasset/js/plugins/wow.js"></script>
+    <script src="static/userasset/js/plugins/jquery-ui.js"></script>
+    <script src="static/userasset/js/plugins/perfect-scrollbar.js"></script>
+    <script src="static/userasset/js/plugins/magnific-popup.js"></script>
+    <script src="static/userasset/js/plugins/select2.min.js"></script>
+    <script src="static/userasset/js/plugins/waypoints.js"></script>
+    <script src="static/userasset/js/plugins/counterup.js"></script>
+    <script src="static/userasset/js/plugins/jquery.countdown.min.js"></script>
+    <script src="static/userasset/js/plugins/images-loaded.js"></script>
+    <script src="static/userasset/js/plugins/isotope.js"></script>
+    <script src="static/userasset/js/plugins/scrollup.js"></script>
+    <script src="static/userasset/js/plugins/jquery.vticker-min.js"></script>
+    <!-- Template  JS -->
+    <script src="./static/userasset/js/main.js?v=3.4"></script>
+    <script src="./static/userasset/js/shop.js?v=3.4"></script>
+</body>
+
+</html>

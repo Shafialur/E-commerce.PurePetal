@@ -1,0 +1,319 @@
+<%- include('../userheader/userheader') %>
+            <main class="main">
+                <form style="position: relative;">
+                    <input type="text" name="search" placeholder="Search...">
+                    <input type="submit" value="Go">
+                </form>
+                <section class="mt-50 mb-50">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <div class="shop-product-fillter style-2">
+                                    <div class="sort-by-product-area">
+                                        <div class="sort-by-cover mr-10">
+                                            <div class="sort-by-product-wrap">
+                                                <div class="sort-by">
+                                                    <span><i class="fi-rs-apps"></i>Show:</span>
+                                                </div>
+                                                <div class="sort-by-dropdown-wrap">
+                                                    <span> 50 <i class="fi-rs-angle-small-down"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="sort-by-dropdown">
+                                                <ul>
+                                                    <li><a class="active" href="#">50</a></li>
+                                                    <li><a href="#">100</a></li>
+                                                    <li><a href="#">150</a></li>
+                                                    <li><a href="#">200</a></li>
+                                                    <li><a href="#">All</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="sort-by-cover">
+                                            <div class="sort-by-product-wrap">
+                                                <div class="sort-by">
+                                                    <span><i class="fi-rs-apps-sort"></i>Sort by:</span>
+                                                </div>
+                                                <div class="sort-by-dropdown-wrap">
+                                                    <span id="sortOption"> Price <i
+                                                            class="fi-rs-angle-small-down"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="sort-by-dropdown">
+                                                <ul>
+
+                                                    <li><a href="/shoppagesort?option=Low to High">Price: Low
+                                                            to High</a></li>
+                                                    <li><a href="/shoppagesort?option=High to Low">Price:
+                                                            High to Low</a></li>
+                                                    <li><a href="#" onclick="changeSortOption('Release Date')">Release
+                                                            Date</a></li>
+                                                    <li><a href="#" onclick="changeSortOption('Avg. Rating')">Avg.
+                                                            Rating</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-list mb-50">
+
+                                    <% if (products.length> 0) { %>
+                                        <% for (let i=0; i < products.length; i++) { %>
+
+                                            <div class="product-cart-wrap">
+                                                <div class="product-img-action-wrap">
+                                                    <div class="product-img product-img-zoom">
+                                                        <div class="product-img-inner">
+                                                            <a href="/showproduct?id=<%= products[i]._id %>">
+                                                                <img class="default-img"
+                                                                    src="/productimages/<%= products[i].productimg[0] %>"
+                                                                    alt="">
+                                                                <img class="hover-img"
+                                                                    src="/productimages/<%= products[i].productimg[1] %>"
+                                                                    alt="">
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-action-1">
+                                                        <a aria-label="Quick view" class="action-btn hover-up"
+                                                            data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                                            <i class="fi-rs-search"></i></a>
+                                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                        <a aria-label="Compare" class="action-btn hover-up"
+                                                            href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                                    </div>
+                                                    <div
+                                                        class="product-badges product-badges-position product-badges-mrg">
+                                                        <span class="hot">Hot</span>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content-wrap">
+                                                    <div class="product-category">
+                                                        <a href="shop-grid-right.html">
+                                                            <%= products[i].category.title %>
+                                                        </a>
+                                                    </div>
+                                                    <h2><a href="/showproduct?id=<%= products[i]._id %>">
+                                                            <%= products[i].title%>
+                                                        </a></h2>
+                                                    <div class="product-price">
+                                                        <span>
+                                                            <%= products[i].pprice%>
+                                                        </span>
+                                                        <span class="old-price">
+                                                            <%= products[i].promoprice%>
+                                                        </span>
+                                                    </div>
+                                                    <p class="mt-15">
+                                                        <%= products[i].productdt%>
+                                                    </p>
+                                                    <div class="product-action-1 show">
+                                                        <style>
+                                                            /* Custom style to make btn-danger red */
+                                                            .outofstock {
+                                                                background-color: rgb(138, 71, 71) !important;
+                                                                border-color: rgb(137, 61, 61) !important;
+                                                            }
+                                                        </style>
+                                                        <% if (products[i].quantity < 1) { %>
+                                                            <a aria-label="Out of Stock" class="outofstock action-btn"
+                                                                href="#" onclick="alert('Out of Stock')">
+                                                                <i class="fi-rs-shopping-bag"></i>Out of Stock
+                                                            </a>
+                                                            <% } else { %>
+                                                                <a aria-label="Buy now" class="action-btn"
+                                                                    href="/addtocart?id=<%= products[i]._id %>">
+                                                                    <i class="fi-rs-shopping-bag-add"></i>Add to Cart
+                                                                </a>
+                                                                <% } %>
+                                                                    <div class="rating-result" title="90%">
+                                                                        <span>
+                                                                            <span>90%</span>
+                                                                        </span>
+                                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <% } %>
+                                                <% } else { %>
+                                                    <tr>
+                                                        <td colspan="5" class="text-center">No Products Found</td>
+                                                    </tr>
+                                                    <% } %>
+
+                                </div>
+                                
+                            </div>
+                            
+                    </div>
+                </section>
+            </main>
+            <footer class="main">
+                <section class="newsletter p-30 text-white wow fadeIn animated">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-lg-7 mb-md-3 mb-lg-0">
+                                <div class="row align-items-center">
+                                    <div class="col flex-horizontal-center">
+                                        <img class="icon-email" src="static/userasset/imgs/theme/icons/icon-email.svg"
+                                            alt="">
+                                        <h4 class="font-size-20 mb-0 ml-3">Sign up to Newsletter</h4>
+                                    </div>
+                                    <div class="col my-4 my-md-0 des">
+                                        <h5 class="font-size-15 ml-4 mb-0">...and receive <strong>$25 coupon for first
+                                                shopping.</strong></h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <!-- Subscribe Form -->
+                                <form class="form-subcriber d-flex wow fadeIn animated">
+                                    <input type="email" class="form-control bg-white font-small"
+                                        placeholder="Enter your email">
+                                    <button class="btn bg-dark text-white" type="submit">Subscribe</button>
+                                </form>
+                                <!-- End Subscribe Form -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="section-padding footer-mid">
+                    <div class="container pt-15 pb-20">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6">
+                                <div class="widget-about font-md mb-md-5 mb-lg-0">
+                                    <div class="logo logo-width-1 wow fadeIn animated">
+                                        <a href="index.html"><img src="static/userasset/imgs/theme/logo.svg"
+                                                alt="logo"></a>
+                                    </div>
+                                    <h5 class="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated">Contact</h5>
+                                    <p class="wow fadeIn animated">
+                                        <strong>Address: </strong>562 Wellington Road, Street 32, San Francisco
+                                    </p>
+                                    <p class="wow fadeIn animated">
+                                        <strong>Phone: </strong>+01 2222 365 /(+91) 01 2345 6789
+                                    </p>
+                                    <p class="wow fadeIn animated">
+                                        <strong>Hours: </strong>10:00 - 18:00, Mon - Sat
+                                    </p>
+                                    <h5 class="mb-10 mt-30 fw-600 text-grey-4 wow fadeIn animated">Follow Us</h5>
+                                    <div class="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0">
+                                        <a href="#"><img src="static/userasset/imgs/theme/icons/icon-facebook.svg"
+                                                alt=""></a>
+                                        <a href="#"><img src="static/userasset/imgs/theme/icons/icon-twitter.svg"
+                                                alt=""></a>
+                                        <a href="#"><img src="static/userasset/imgs/theme/icons/icon-instagram.svg"
+                                                alt=""></a>
+                                        <a href="#"><img src="static/userasset/imgs/theme/icons/icon-pinterest.svg"
+                                                alt=""></a>
+                                        <a href="#"><img src="static/userasset/imgs/theme/icons/icon-youtube.svg"
+                                                alt=""></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-3">
+                                <h5 class="widget-title wow fadeIn animated">About</h5>
+                                <ul class="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
+                                    <li><a href="#">About Us</a></li>
+                                    <li><a href="#">Delivery Information</a></li>
+                                    <li><a href="#">Privacy Policy</a></li>
+                                    <li><a href="#">Terms &amp; Conditions</a></li>
+                                    <li><a href="#">Contact Us</a></li>
+                                    <li><a href="#">Support Center</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-2  col-md-3">
+                                <h5 class="widget-title wow fadeIn animated">My Account</h5>
+                                <ul class="footer-list wow fadeIn animated">
+                                    <li><a href="#">Sign In</a></li>
+                                    <li><a href="#">View Cart</a></li>
+                                    <li><a href="#">My Wishlist</a></li>
+                                    <li><a href="#">Track My Order</a></li>
+                                    <li><a href="#">Help</a></li>
+                                    <li><a href="#">Order</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-4">
+                                <h5 class="widget-title wow fadeIn animated">Install App</h5>
+                                <div class="row">
+                                    <div class="col-md-8 col-lg-12">
+                                        <p class="wow fadeIn animated">From App Store or Google Play</p>
+                                        <div class="download-app wow fadeIn animated">
+                                            <a href="#" class="hover-up mb-sm-4 mb-lg-0"><img class="active"
+                                                    src="static/userasset/imgs/theme/app-store.jpg" alt=""></a>
+                                            <a href="#" class="hover-up"><img
+                                                    src="static/userasset/imgs/theme/google-play.jpg" alt=""></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-lg-12 mt-md-3 mt-lg-0">
+                                        <p class="mb-20 wow fadeIn animated">Secured Payment Gateways</p>
+                                        <img class="wow fadeIn animated"
+                                            src="static/userasset/imgs/theme/payment-method.png" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div class="container pb-20 wow fadeIn animated">
+                    <div class="row">
+                        <div class="col-12 mb-20">
+                            <div class="footer-bottom"></div>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="float-md-left font-sm text-muted mb-0">&copy; 2022, <strong
+                                    class="text-brand">Evara</strong> - HTML Ecommerce Template </p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="text-lg-end text-start font-sm text-muted mb-0">
+                                Designed by <a href="http://alithemes.com" target="_blank">Alithemes.com</a>. All rights
+                                reserved
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- Preloader Start -->
+            <div id="preloader-active">
+                <div class="preloader d-flex align-items-center justify-content-center">
+                    <div class="preloader-inner position-relative">
+                        <div class="text-center">
+                            <h5 class="mb-5">Now Loading</h5>
+                            <div class="loader">
+                                <div class="bar bar1"></div>
+                                <div class="bar bar2"></div>
+                                <div class="bar bar3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Vendor JS-->
+            <script src="static/userasset/js/vendor/modernizr-3.6.0.min.js"></script>
+            <script src="static/userasset/js/vendor/jquery-3.6.0.min.js"></script>
+            <script src="static/userasset/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+            <script src="static/userasset/js/vendor/bootstrap.bundle.min.js"></script>
+            <script src="static/userasset/js/plugins/slick.js"></script>
+            <script src="static/userasset/js/plugins/jquery.syotimer.min.js"></script>
+            <script src="static/userasset/js/plugins/wow.js"></script>
+            <script src="static/userasset/js/plugins/jquery-ui.js"></script>
+            <script src="static/userasset/js/plugins/perfect-scrollbar.js"></script>
+            <script src="static/userasset/js/plugins/magnific-popup.js"></script>
+            <script src="static/userasset/js/plugins/select2.min.js"></script>
+            <script src="static/userasset/js/plugins/waypoints.js"></script>
+            <script src="static/userasset/js/plugins/counterup.js"></script>
+            <script src="static/userasset/js/plugins/jquery.countdown.min.js"></script>
+            <script src="static/userasset/js/plugins/images-loaded.js"></script>
+            <script src="static/userasset/js/plugins/isotope.js"></script>
+            <script src="static/userasset/js/plugins/scrollup.js"></script>
+            <script src="static/userasset/js/plugins/jquery.vticker-min.js"></script>
+            <script src="static/userasset/js/plugins/jquery.theia.sticky.js"></script>
+            <script src="static/userasset/js/plugins/jquery.elevatezoom.js"></script>
+            <!-- Template  JS -->
+            <script src="./static/userasset/js/main.js?v=3.4"></script>
+            <script src="./static/userasset/js/shop.js?v=3.4"></script>
+</body>
+
+</html>

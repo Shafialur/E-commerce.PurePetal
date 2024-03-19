@@ -1,0 +1,100 @@
+<%- include('../adminheader/adminheader') %>  
+        <section class="content-main">
+            <div class="content-header">
+                <h2 class="content-title">Categories</h2>
+
+            </div>
+            <form action="" method="post" onsubmit="return validateForm()">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <div class="row">
+                            <% if (typeof message !=='undefined' ) { %>
+                                <p class="text-danger text-left">
+                                    <%= message %>
+                                </p>
+                                <% } %>
+                            <div class="col-md-12 text-left">
+                                <img id="watchImage"
+                                    src="https://images.samsung.com/is/image/samsung/p6pim/in/sm-r930nzkains/gallery/in-galaxy-watch6-r935-sm-r930nzkains-539690887?$2052_1641_PNG$"
+                                    alt="" class="img-fluid" style="width: 150px; height: auto; margin-bottom: 10px;">
+                                <br>
+                                <label for="newImage">New Image URL:</label>
+                                <input type="text" id="newImage" class="form-control" name="imageurl"
+                                    placeholder="Enter new image URL" required>
+                                <br>
+                                <label for="title">Title:</label>
+                                <input type="text" id="title" name="title" class="form-control"
+                                    placeholder="Enter title" required>
+                                <br>
+                                <label for="description">Description:</label>
+                                <textarea id="description" name="description" class="form-control"
+                                    placeholder="Enter description" required></textarea>
+                                <br>
+                                <input type="submit" class="btn btn-primary" value="Add">
+                                <hr>
+                            </div>
+                        </div>
+                    </div> <!-- card-body end// -->
+                </div>
+            </form>
+
+            <script>
+                function validateForm() {
+                    // Get form elements
+                    let imageurlInput = document.getElementById('newImage');
+                    let titleInput = document.getElementById('title');
+                    let descriptionInput = document.getElementById('description');
+
+                    // Check if any input field is empty
+                    if (imageurlInput.value.trim() === '' || titleInput.value.trim() === '' || descriptionInput.value.trim() === '') {
+                        alert('Please fill out all fields.');
+                        return false; // Prevent form submission
+                    }
+                    return true; // Allow form submission
+                }
+            </script>
+
+
+
+
+            <div class="pagination-area mt-15 mb-50">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-start">
+                        <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                        <li class="page-item"><a class="page-link" href="#">02</a></li>
+                        <li class="page-item"><a class="page-link" href="#">03</a></li>
+                        <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                        <li class="page-item"><a class="page-link" href="#">16</a></li>
+                        <li class="page-item"><a class="page-link" href="#"><i
+                                    class="material-icons md-chevron_right"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </section> <!-- content-main end// -->
+        <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script> ©, Evara - HTML Ecommerce Template .
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end">
+                        All rights reserved
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+    <script src="/static/adminasset/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/static/adminasset/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/static/adminasset/js/vendors/select2.min.js"></script>
+    <script src="/static/adminasset/js/vendors/perfect-scrollbar.js"></script>
+    <script src="/static/adminasset/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="/static/adminasset/js/main.js" type="text/javascript"></script>
+
+</body>
+
+</html>
+has-submenu active

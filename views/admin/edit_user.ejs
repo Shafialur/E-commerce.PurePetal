@@ -1,0 +1,19 @@
+<%- include('../layouts/header') %>
+
+<h1>Edit User</h1>
+
+<form action="" method="post">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" placeholder="Enter Name" value="<%= user.name %>" required>
+    <br><br>
+    <label for="email">Email</label>
+    <input type="text" id="email" name="email" placeholder="Enter Email" value="<%= user.email %>" required> 
+    <br><br>
+    <label for="mobile">Mobile</label>
+    <input type="text" id="mobile" name="mobile" placeholder="Enter Mobile" value="<%= user.mobile %>" required>
+    <br><br>
+    <input type="hidden" name="id" value="<%= user._id %>">
+    <input type="submit" value="Update User">
+</form>
+
+<%- include('../layouts/footer') %>

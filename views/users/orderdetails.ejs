@@ -1,0 +1,253 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>PurePetal</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/static/userasset/imgs/theme/purepetal.png">
+    <!-- Template CSS -->
+    <link href="static/adminasset/css/main.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+</head>
+
+<body>
+
+    <main>
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Order detail</h2>
+                    <p>Details for Order ID: <%= orderData.orderId %>
+                    </p>
+                </div>
+            </div>
+            <div class="card" id="products">
+                <header class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+                            <span>
+                                <i class="material-icons md-calendar_today"></i> <b>
+                                    <%= orderData.date %>
+                                </b>
+                            </span> <br>
+                            <small class="text-muted">Order ID: <%= orderData.orderId %></small>
+                        </div>
+                        <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+
+                            <a class="btn btn-primary" href="/editprofile">Back To Orders</a>
+
+                        </div>
+                    </div>
+                </header> <!-- card-header end// -->
+                <div class="card-body">
+                    <div class="row mb-50 mt-20 order-info-wrap">
+                        <div class="col-md-4">
+                            <article class="icontext align-items-start">
+                                <span class="icon icon-sm rounded-circle bg-primary-light">
+                                    <i class="text-primary material-icons md-person"></i>
+                                </span>
+                                <div class="text">
+                                    <h6 class="mb-1">Profile</h6>
+                                    <p class="mb-1">
+                                        <%= userData.name %> <br>
+                                            <%= userData.email %> <br>
+                                                <%= userData.mobile %>
+                                    </p>
+                                    <!-- <a href="#">View profile</a> -->
+                                </div>
+                            </article>
+                        </div> <!-- col// -->
+                        <div class="col-md-4">
+                            <article class="icontext align-items-start">
+                                <span class="icon icon-sm rounded-circle bg-primary-light">
+                                    <i class="text-primary material-icons md-local_shipping"></i>
+                                </span>
+                                <div class="text">
+                                    <h6 class="mb-1">Order info</h6>
+                                    <p class="mb-1">
+                                        Shipping: Fargo express <br> Pay method: <%= orderData.paymethod %> <br>
+                                            OrderStatus: <%= orderData.orderstatus %> <br>
+                                            Payment Status: <%= orderData.paymentstatus %> <br>
+                                            <% if (orderData.paymentstatus == "Pending" && orderData.paymethod=="Online Payment") { %>
+                                                <a href="/failedpayment?id=<%=orderData.orderId%>"><button class="btn-primary btn-sm" >Pay Amount</button></a>
+                                            <% } %>
+                                    </p>
+                                    <!-- <a href="#">Download info</a> -->
+                                </div>
+                            </article>
+                        </div> <!-- col// -->
+                        <div class="col-md-4">
+                            <article class="icontext align-items-start">
+                                <span class="icon icon-sm rounded-circle bg-primary-light">
+                                    <i class="text-primary material-icons md-place"></i>
+                                </span>
+                                <div class="text">
+                                    <h6 class="mb-1">Deliver to</h6>
+                                    <p class="mb-1">
+                                        <%= orderData.address%>
+                                    </p>
+                                    <!-- <a href="#">View profile</a> -->
+                                </div>
+                            </article>
+                        </div> <!-- col// -->
+                    </div> <!-- row // -->
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th width="40%">Product</th>
+                                            <th width="20%">Unit Price</th>
+                                            <th width="20%">Quantity</th>
+                                            <th width="20%" class="text-end">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% let subtotal=0; %>
+                                            <% for (let i=0; i < orderData.products.length; i++) { %>
+                                                <tr>
+                                                    <td>
+                                                        <a class="itemside" href="#">
+                                                            <div class="left">
+                                                                <img src="/productimages/<%= orderData.products[i].imageurl %>"
+                                                                    width="40" height="40" class="img-xs" alt="Item">
+                                                            </div>
+                                                            <div class="info">
+                                                                <%= orderData.products[i].title %>
+                                                            </div>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <%= orderData.products[i].pprice %>
+                                                    </td>
+                                                    <td>
+                                                        <%= orderData.products[i].quantity %>
+                                                    </td>
+                                                    <% let total=orderData.products[i].pprice *
+                                                        orderData.products[i].quantity %>
+                                                        <% subtotal +=total; %>
+                                                            <td class="text-end">
+                                                                <%= total %>
+                                                            </td>
+                                                </tr>
+                                                <% } %>
+                                                    <br>
+                                                    <td colspan="4">
+                                                        <article class="float-end">
+                                                            <hr>
+                                                            <dl class="dlist">
+                                                                <dt>Subtotal:</dt>
+                                                                <dd>Rs: <%= subtotal.toFixed(1) %>
+                                                                </dd>
+                                                            </dl>
+                                                            <dl class="dlist">
+                                                                <dt>Shipping cost:</dt>
+                                                                <dd>Rs:00</dd>
+                                                            </dl>
+                                                            <dl class="dlist">
+                                                                <dt>Discount:</dt>
+                                                                <dd>Rs:<%= orderData.discount %></dd>
+                                                            </dl>
+                                                            <dl class="dlist">
+                                                                <dt>Grand total:</dt>
+                                                                <dd> <b class="h5">Rs: <%= orderData.total %></b>
+                                                                </dd>
+                                                            </dl>
+
+                                                            <dl class="dlist">
+                                                                <dt class="text-muted">Status:</dt>
+                                                                <dd>
+                                                                    <span
+                                                                        class="badge rounded-pill alert-success text-success">
+                                                                        <% if (orderData.orderstatus==="Confirmed" ||
+                                                                            orderData.orderstatus==="Shipped" ) { %>
+                                                                            Processing
+                                                                            <% } else { %>
+                                                                                <%= orderData.orderstatus %>
+                                                                                    <% } %>
+                                                                    </span>
+                                                                </dd>
+                                                            </dl>
+
+                                                        </article>
+                                                    </td>
+                                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div> <!-- table-responsive// -->
+                            <% if(orderData.paymentstatus=="PaymentSuccess") { %>
+                                <button class="btn btn-primary" id="pdfButton">Download Invoice</button>
+                            <%}%>
+
+
+                        </div> <!-- col// -->
+                    </div>
+                </div> <!-- card-body end// -->
+            </div> <!-- card end// -->
+        </section> <!-- content-main end// -->
+        <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script> ©, Evara - HTML Ecommerce Template .
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end">
+                        All rights reserved
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+    <script src="static/adminasset/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="static/adminasset/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="static/adminasset/js/vendors/select2.min.js"></script>
+    <script src="static/adminasset/js/vendors/perfect-scrollbar.js"></script>
+    <script src="static/adminasset/js/vendors/jquery.fullscreen.min.js"></script>
+
+    <script>
+        $(document).ready(function ($) {
+            $(document).on('click', '#pdfButton', function (event) {
+                console.log("jjjjjjjj");
+                var element = document.getElementById('products');
+                var additionalInfo = "<br><br><h6 style='text-align: center;'>Thankyou...</h6>";
+                element.innerHTML += additionalInfo;
+                var heading = document.createElement('div');
+                heading.innerHTML = "<h1 style='text-align: center;'>INVOICE</h1><h4 style='text-align: center;'>PurePetal <br> Luxurious Watches</h4> <hr><br>";
+                element.insertBefore(heading, element.firstChild); //
+                let randomNumber = Math.floor(Math.random() * (10000000000 - 1)) + 1;
+                var opt = {
+                    margin: 0,
+                    filename: 'invoice' + randomNumber + '.pdf',
+                    html2canvas: { scale: 10 },
+                    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                };
+
+                html2pdf().set(opt).from(element).save();
+
+            });
+        });
+
+    </script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+
+    <!-- Main Script -->
+    <script src="static/adminasset/js/main.js" type="text/javascript"></script>
+</body>
+
+</html>

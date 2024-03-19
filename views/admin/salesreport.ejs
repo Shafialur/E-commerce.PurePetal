@@ -1,0 +1,318 @@
+<%- include('../adminheader/adminheader') %>
+    <section class="content-main">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title">Sales Report</h2>
+                <!-- Filtering Box -->
+
+            </div>
+            <style>
+                .filter-box {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .filter-box form {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .filter-box label {
+                    margin-bottom: 5px;
+                }
+
+                .filter-box button {
+                    margin-top: 10px;
+                    padding: 8px 16px;
+                    background-color: #22784a;
+                    color: white;
+                    border: none;
+                    border-radius: 10px;
+                    cursor: pointer;
+                }
+
+                .filter-box button:hover {
+                    background-color: #45a049;
+                }
+            </style>
+
+            <div class="filter-box">
+                <form action="">
+                    <label for="startDate">Start Date:</label>
+                    <input type="date" id="startDate" name="startDate">
+                    <label for="endDate">End Date:</label>
+                    <input type="date" id="endDate" name="endDate">
+                    <button type="submit" class="btn btn-sm">Go</button>
+                </form>
+            </div>
+
+        </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <p>
+                        <label for="filter">Filter By:</label>
+                        <select id="reportSelect" onchange="selectedReport()">
+                            <option value="Weekly">Weekly</option>
+                            <option value="Monthly">Monthly</option>
+                            <option value="Yearly">Yearly</option>
+                            <!-- <option value="custom">Custom Date</option> -->
+                        </select>
+                    </p>
+                    <table class="table table-bordered table-striped mt-4">
+                        <thead>
+                            <tr>
+                                <th>OrderId</th>
+                                <th>UserEmail</th>
+                                <th>Date</th>
+                                <th>Payment Method</th>
+                                <th>Discount</th>
+                                <th>Total Sale</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% let total=0; %>
+                                <% if (orderData.length> 0) { %>
+                                    <% for (let i=0; i <orderData.length; i++) { %>
+                                        <tr>
+                                            <td>
+                                                <%= orderData[i].orderId %>
+                                            </td>
+                                            <td>
+                                                <%= orderData[i].email %>
+                                            </td>
+                                            <td>
+                                                <%= new Date(orderData[i].date).toLocaleDateString() %>
+                                            </td>
+                                            <td>
+                                                <%= orderData[i].paymethod%>
+                                            </td>
+                                            <td>
+                                                <%=orderData[i].discount %>
+                                            </td>
+                                            <td>
+                                                <%= orderData[i].total %>
+                                            </td>
+                                        </tr>
+                                        <% total +=orderData[i].total; %>
+                                            <% } %>
+                                                <% } else { %>
+                                                    <tr>
+                                                        <td colspan="6" class="text-center">No Sales Found</td>
+                                                    </tr>
+                                                    <% } %>
+                                                        <hr>
+                                                        <tr>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <th style="font-size: large;">Total:</th>
+                                                            <th style="font-size: large;">
+                                                                <%= total %>
+                                                            </th>
+                                                        </tr>
+
+                        </tbody>
+                    </table>
+                    <div class="download-buttons">
+                        <button class="button2" onclick="downloadPdf()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-file-arrow-down" viewBox="0 0 16 16">
+                                <path
+                                    d="M8.5 11.793V4a.5.5 0 0 1 .8-.4l3.965 3.197a.5.5 0 0 1 0 .8l-3.965 3.197a.5.5 0 0 1-.8-.4z" />
+                                <path fill-rule="evenodd"
+                                    d="M8 1a1 1 0 0 1 1 1v6.793l3.643-2.928a1 1 0 1 1 1.214 1.572l-5 4a1 1 0 0 1-1.214 0l-5-4a1 1 0 0 1 1.214-1.572L7 8.793V2a1 1 0 0 1 1-1z" />
+                            </svg>
+                            PDF
+                        </button>
+                        <button class="button1" onclick="downloadExcel()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-file-arrow-down" viewBox="0 0 16 16">
+                                <path
+                                    d="M8.5 11.793V4a.5.5 0 0 1 .8-.4l3.965 3.197a.5.5 0 0 1 0 .8l-3.965 3.197a.5.5 0 0 1-.8-.4z" />
+                                <path fill-rule="evenodd"
+                                    d="M8 1a1 1 0 0 1 1 1v6.793l3.643-2.928a1 1 0 1 1 1.214 1.572l-5 4a1 1 0 0 1-1.214 0l-5-4a1 1 0 0 1 1.214-1.572L7 8.793V2a1 1 0 0 1 1-1z" />
+                            </svg>
+                            Excel
+                        </button>
+                    </div>
+                    <style>
+                        .download-buttons {
+                            margin-top: 10px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+
+                        .button1 {
+                            background-color: #ab0000;
+                            border: none;
+                            color: white;
+                            padding: 10px 20px;
+                            text-align: center;
+                            text-decoration: none;
+                            display: inline-block;
+                            font-size: 10px;
+                            margin-right: 10px;
+                            cursor: pointer;
+                        }
+
+                        .button2 {
+                            background-color: #077c0b;
+                            border: none;
+                            color: white;
+                            padding: 10px 20px;
+                            text-align: center;
+                            text-decoration: none;
+                            display: inline-block;
+                            font-size: 10px;
+                            margin-right: 10px;
+                            cursor: pointer;
+                        }
+
+                        .button:hover {
+                            background-color: #0056b3;
+                        }
+
+                        svg {
+                            margin-right: 5px;
+                            margin-bottom: -3px;
+                        }
+                    </style>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.19.0/pdf-lib.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.2/xlsx.full.min.js"></script>
+
+
+                    <script>
+                        function downloadPdf() {
+                    
+                            function getQueryParams() {
+                                var queryParams = new URLSearchParams(window.location.search);
+                                var startDate = queryParams.has('startDate') ? queryParams.get('startDate') : null;
+                                var endDate = queryParams.has('endDate') ? queryParams.get('endDate') : null;
+                                var option = queryParams.has('option') ? queryParams.get('option') : null;
+                    
+                                return { startDate: startDate, endDate: endDate, option: option };
+                            }
+                    
+                            var queryParams = getQueryParams();
+
+                            var url = `/admin/downloadPdf`;
+                    
+                            // Append option if it exists
+                            if (queryParams.option !== null) {
+                                url += `?option=${queryParams.option}`;
+                            }
+                    
+                            // Append startDate and endDate if they exist
+                            if (queryParams.startDate !== null && queryParams.endDate !== null) {
+                                url += `?startDate=${queryParams.startDate}&endDate=${queryParams.endDate}`;
+                            }
+                    
+                            window.location.href = url;
+                        }
+                    
+                        function downloadExcel() {
+                            var selectElement = document.getElementById("reportSelect");
+                            var selectedIndex = selectElement.selectedIndex;
+                            var selectedOption = selectElement.options[selectedIndex].value;
+                            window.location.href = `/admin/downloadExcel?option=${selectedOption}`
+                        }
+                    </script>
+
+                    <script>
+                        function selectedReport() {
+                            var selectElement = document.getElementById("reportSelect");
+                            var selectedOption = selectElement.value; // Get the value directly from the select element
+                            // Store the selected option in local storage
+                            localStorage.setItem("selectedOption", selectedOption);
+                            // Redirect to the appropriate URL with the selected option as a query parameter
+                            window.location.href = `?option=${selectedOption}`;
+                        }
+
+                        // Function to set the selected option when the page loads
+                        window.onload = function () {
+                            var storedOption = localStorage.getItem("selectedOption");
+                            if (storedOption) {
+                                var selectElement = document.getElementById("reportSelect");
+                                // Set the selected option based on the stored value
+                                selectElement.value = storedOption;
+                            }
+                        };
+
+                    </script>
+
+                </div>
+            </div> <!-- card-body end// -->
+        </div> <!-- card end// -->
+        <div class="pagination-container">
+            <a class="pagination-link" href="?page=<%= previous %>">Previous</a>
+
+            <% for(let j=1; j<=totalPages; j++) { %>
+                <a class="pagination-link <%= currentPage === j ? 'pagination-active' : '' %>" href="?page=<%= j %>">
+                    <%= j %>
+                </a>
+                <% } %>
+
+                    <a class="pagination-link" href="?page=<%= next %>">Next</a>
+        </div>
+
+        <style>
+            .pagination-container {
+                display: flex;
+                justify-content: center;
+                margin-top: 20px;
+            }
+
+            .pagination-link {
+                color: #1d764f;
+                text-decoration: none;
+                padding: 8px 12px;
+                margin: 0 5px;
+                border: 1px solid #18744b;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+
+            .pagination-link:hover {
+                background-color: #206e3b;
+                color: #fff;
+            }
+
+            .pagination-active {
+                background-color: #176545;
+                color: #fff;
+            }
+        </style>
+
+        <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script> ©, Evara - HTML Ecommerce Template .
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end">
+                        All rights reserved
+                    </div>
+                </div>
+            </div>
+        </footer>
+        </main>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        </script>
+        <script src="/static/adminasset/js/vendors/jquery-3.6.0.min.js"></script>
+        <script src="/static/adminasset/js/vendors/bootstrap.bundle.min.js"></script>
+        <script src="/static/adminasset/js/vendors/select2.min.js"></script>
+        <script src="/static/adminasset/js/vendors/perfect-scrollbar.js"></script>
+        <script src="/static/adminasset/js/vendors/jquery.fullscreen.min.js"></script>
+        <!-- Main Script -->
+        <script src="/static/adminasset/js/main.js" type="text/javascript"></script>
+
+        </body>
+
+        </html>

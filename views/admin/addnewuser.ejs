@@ -1,0 +1,81 @@
+<%- include('../adminheader/adminheader') %>          <section class="content-main">
+            <div class="content-header">
+                <h2 class="content-title">Add New User</h2>
+            </div>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div class="container d-flex align-items-center justify-content-center vh-100">
+                            <div class="card p-4">
+                                <form action="" method="post">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Name:</label>
+                                        <input type="text" class="form-control" name="name" placeholder="Enter Name" required>
+                                    </div>
+                        
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email:</label>
+                                        <input type="text" class="form-control" name="email" placeholder="Enter Email" required>
+                                    </div>
+                        
+                                    <div class="mb-3">
+                                        <label for="mobile" class="form-label">Mobile:</label>
+                                        <input type="text" class="form-control" name="mobile" placeholder="Enter Mobile" required>
+                                    </div>
+                        
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Password:</label>
+                                        <input type="password" class="form-control" name="password" placeholder="Enter Password" required>
+                                    </div>
+                        
+                                    <button type="submit" class="btn btn-primary btn-block">Add User</button>
+                                </form><br>
+                                
+                                <% if (typeof message !== 'undefined') { %>
+                                    <p class="text-success mt-3 text-center"><%= message %></p>
+                                <% } %>
+                        
+                            </div>
+                        </div>
+                     <!-- table-responsive.// -->
+                    </div>
+                </div> <!-- card-body end// -->
+            </div> <!-- card end// -->
+            <div class="pagination-area mt-15 mb-50">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-start">
+                        <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                        <li class="page-item"><a class="page-link" href="#">02</a></li>
+                        <li class="page-item"><a class="page-link" href="#">03</a></li>
+                        <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                        <li class="page-item"><a class="page-link" href="#">16</a></li>
+                        <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </section> <!-- content-main end// -->
+        <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script>
+                    document.write(new Date().getFullYear())
+                    </script> ©, Evara - HTML Ecommerce Template .
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end">
+                        All rights reserved
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+    <script src="/static/adminasset/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/static/adminasset/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/static/adminasset/js/vendors/select2.min.js"></script>
+    <script src="/static/adminasset/js/vendors/perfect-scrollbar.js"></script>
+    <script src="/static/adminasset/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="/static/adminasset/js/main.js" type="text/javascript"></script>
+</body>
+
+</html>
