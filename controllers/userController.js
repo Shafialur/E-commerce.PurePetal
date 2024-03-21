@@ -44,7 +44,8 @@ const sendverify = async (req, res) => {
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             console.error('Error sending email:', error);
-            return res.render('verification', { message: `Error sending otp ${otp}` })
+            return res.render('verification', {message: `Error sending otp ${otp}`})
+            console.log(otp);
         }
         console.log(otp)
         res.status(200).redirect('/verify')

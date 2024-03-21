@@ -646,6 +646,9 @@
                                                                                                     href="#"
                                                                                                     onclick="cancelreturn('<%= orderData[i].orderId %>')">Cancel
                                                                                                     Return</a></li>
+                                                                                            <% }else if
+                                                                                            (orderData[i].orderstatus==="Returned") { %>
+                                                                                            <li></li>
                                                                                             <% } else { %>
                                                                                                 <li><a class="dropdown-item"
                                                                                                         href="#"

@@ -223,7 +223,7 @@ const returnorder = async (req, res) => {
 const orderdetails = async (req, res) => {
     try {
         const orderid = req.query.id
-        const orderData = await order.findOne({ orderId: orderid })
+        const orderData = await order.findOne({orderId: orderid})
         const userData = await user.findOne({ _id: orderData.userid })
 
         return res.render('orderdetails', { orderData, userData })

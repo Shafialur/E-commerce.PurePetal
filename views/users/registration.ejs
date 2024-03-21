@@ -443,19 +443,27 @@
         var password = document.getElementById('password').value;
         var cpassword = document.getElementById('cpassword').value;
         var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
         // Clear previous error messages
         document.getElementById('emailError').textContent = '';
         document.getElementById('passwordError').textContent = '';
         document.getElementById('cpasswordError').textContent = '';
 
-        if (username === '' || password === '') {
-            document.getElementById('emailError').textContent = 'Please enter Valid details';
+        if (username === '' || password === '' || cpassword === '') {
+            document.getElementById('emailError').textContent = 'Please enter valid details';
             return false;
         }
 
         if (!emailRegex.test(username)) {
             document.getElementById('emailError').textContent = 'Please enter a valid email';
+            return false;
+        }
+
+        if (!passwordRegex.test(password)) {
+            document.getElementById('passwordError').textContent = `Password must contain at least 8 characters,
+            including one uppercase letter
+            one lowercase letter, and one digit`;
             return false;
         }
 
@@ -466,8 +474,8 @@
 
         return true;
     }
+</script>
 
- </script>
  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <%- include('../layouts/footer') %>
