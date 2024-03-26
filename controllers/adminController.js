@@ -64,11 +64,11 @@ const loadDashboard = async (req, res) => {
         // };
 
 
-        const userData = await user.find({})
+        const userData = (await user.find({})
             .limit(limit * 1)
             .skip((page - 1) * limit)
-            .exec();
-        console.log(userData);
+            .exec()).reverse()
+       
 
         const count = await user.find({ is_block: 0 }).countDocuments()
 

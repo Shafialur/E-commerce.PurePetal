@@ -33,8 +33,7 @@ const submitorder = async (req, res) => {
         const userId = req.session.user_id;
         const orderproductsData = await cart.find({ userid: userId }, { products: 1, _id: 0 });
         const userData = await user.findOne({ _id: userId });
-
-
+console.log(req.body);
         const { addressId, paymentOption, cartSubtotal, discount } = req.body;
 
 
@@ -43,15 +42,12 @@ const submitorder = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Cart is empty or not found' });
         }
 
-
-
         const orderproducts = orderproductsData[0].products;
-
         // Find the specific subdocument in the 'address' array based on its _id
-        const addressData = await address.findOne({ userid: userId, 'address._id': addressId }, { 'address.$': 1 });
-
-        if (addressData?.address?.length > 0) {
-            const matchedAddress = addressData.address[0];
+        const getAddress = await address.findOne({ userid: userId});
+        const addressData=getAddress.address.find(item=> item._id==addressId)
+        if (addressData) {
+            const matchedAddress = addressData;
             const { house, landmark, city, state, zipcode, country } = matchedAddress;
 
             // Extract only the desired fields from the products array
@@ -63,6 +59,7 @@ const submitorder = async (req, res) => {
                 imageurl: product.productimg,
                 category: product.category
             }));
+            console.log(selectedProducts);
             for (let i = 0; i < selectedProducts.length; i++) {
 
                 const productData = await product.findOne({ _id: selectedProducts[i].productid })
